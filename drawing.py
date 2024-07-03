@@ -15,7 +15,7 @@ class Line:
 
 
 class Cell:
-    def __init__(self, win, x_top_left, y_top_left, x_bot_right, y_bot_right):
+    def __init__(self, x_top_left, y_top_left, x_bot_right, y_bot_right, win=None):
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
