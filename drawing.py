@@ -25,6 +25,7 @@ class Cell:
         self._y1 = y_top_left
         self._y2 = y_bot_right
         self._win = win
+        self.visited = False
 
     def draw(self, color):
         if self._win is None:
