@@ -27,18 +27,36 @@ class Cell:
         self._win = win
 
     def draw(self, color):
+        if self._win is None:
+            print("_win = None")
+            return
         if self.has_left_wall:
             left_wall = Line(Point(self._x1, self._y1),(Point(self._x1, self._y2)))
-            left_wall.draw(self._win.canvas, color)
+            self._win.draw_line(left_wall, color)
+        elif self.has_left_wall == False:
+            left_wall = Line(Point(self._x1, self._y1),(Point(self._x1, self._y2)))
+            self._win.draw_line(left_wall, "white")
+            
         if self.has_right_wall:
             right_wall = Line(Point(self._x2, self._y1),(Point(self._x2, self._y2)))
-            right_wall.draw(self._win.canvas, color)
+            self._win.draw_line(right_wall, color)
+        elif self.has_right_wall == False:
+            right_wall = Line(Point(self._x2, self._y1),(Point(self._x2, self._y2)))
+            self._win.draw_line(right_wall, "white")
+
         if self.has_top_wall:
             top_wall = Line(Point(self._x1, self._y1),(Point(self._x2, self._y1)))
-            top_wall.draw(self._win.canvas, color)
+            self._win.draw_line(top_wall, color)
+        elif self.has_top_wall == False:
+            top_wall = Line(Point(self._x1, self._y1),(Point(self._x2, self._y1)))
+            self._win.draw_line(top_wall, "white")
+
         if self.has_bottom_wall:
             bottom_wall = Line(Point(self._x1, self._y2),(Point(self._x2, self._y2)))
-            bottom_wall.draw(self._win.canvas, color)
+            self._win.draw_line(bottom_wall, color)
+        elif self.has_bottom_wall == False:
+            bottom_wall = Line(Point(self._x1, self._y2),(Point(self._x2, self._y2)))
+            self._win.draw_line(bottom_wall, "white")
 
     def draw_move(self, to_cell, undo=False):
         color = "red"

@@ -9,9 +9,9 @@ def main():
     my_window = Window(1200, 800)
     
     p1 = Point(20, 20)
-    p2 = Point(100, 100)
     
-    my_maze = Maze(p1.x, p1.y, 4, 5, 100, 100, my_window)
+    my_maze = Maze(p1.x, p1.y, 4, 5, 100, 100, win=my_window)
+    my_maze.break_entrance_and_exit()
     
     my_window.wait_for_close()
 
