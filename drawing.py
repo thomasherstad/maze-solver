@@ -70,4 +70,4 @@ class Cell:
         y_to_cell_center = (to_cell._y1 + to_cell._y2)/2
 
         line = Line(Point(x_center, y_center), Point(x_to_cell_center, y_to_cell_center))
-        line.draw(self._win, color)
+        self._win.draw_line(line, color)

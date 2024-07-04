@@ -39,7 +39,7 @@ class Maze:
         if self._win is None:
             return
         self._win.redraw()
-        time.sleep(0.05)
+        time.sleep(0.01)
     
     def break_entrance_and_exit(self):
         if self._cells is None:
@@ -69,7 +69,6 @@ class Maze:
                     continue
                 if neighbor[0] >= self._num_cols or neighbor[1] >= self._num_rows:
                     continue
-                print(f"neighbor[0] = {neighbor[1]}, {type(neighbor[1])}")
                 if not self._cells[neighbor[0]][neighbor[1]].visited:
                     possible_directions.append(neighbor)
             #If there are zero directions you can go from the current cell, then draw the current cell and return to break out of the loop
@@ -109,3 +108,46 @@ class Maze:
                 left_cell.draw("black")
             #Move to the chosen cell by recursively calling _break_walls_r
             self._break_walls_r(chosen_cell[0], chosen_cell[1])
+
+    def _reset_cells_visited(self):
+        for col in self._cells:
+            for cell in col:
+                cell.visited = False
+    
+
+    def solve(self, i, j):
+        return self._solve_r(i,j)
+        
+    #The _solve_r method returns True if the current cell is an end cell, OR if it leads to the end cell. It returns False if the current cell is a loser cell.
+    def _solve_r(self, i, j):
+        current_cell = self._cells[i][j]
+        #Call the _animate method.
+        self._animate()
+        #Mark the current cell as visited
+        current_cell.visited = True
+        #If you are at the "end" cell (the goal) then return True.
+        end_cell_pos = (self._num_cols-1, self._num_rows-1)
+        if (i, j) == end_cell_pos:
+            return True
+        elif (i, j) == end_cell_pos:
+            return True
+        
+        #Find directions without walls
+        #directions = right, left, bottom, top
+        directions = [(i+1,j), (i-1,j), (i,j+1), (i,j-1)]
+        walls = [current_cell.has_right_wall, current_cell.has_left_wall, current_cell.has_bottom_wall, current_cell.has_top_wall]
+        allowed_directions = []
+        for i in range(len(directions)):
+            if walls[i] != True:
+                allowed_directions.append(directions[i])
+
+        for direction in allowed_directions:
+            if direction[0] >= 0 and direction[1] >= 0 and direction[0] < self._num_cols and direction[1] < self._num_rows:
+                to_cell = self._cells[direction[0]][direction[1]]
+                if to_cell.visited == False: #CHECK FOR NO WALL
+                    current_cell.draw_move(to_cell)
+                    if self._solve_r(direction[0], direction[1]):
+                        return True
+                    else:
+                        current_cell.draw_move(to_cell, undo=True)
+        return False
